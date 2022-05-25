@@ -8,7 +8,7 @@
 
 /*
 Created by Jordan Burkhardt May 24th 2022
-Copywrite 2022
+Copyright 2022
 
 The following file contains the function implementations for the GBTags, annotation, and annotations classes.
 */

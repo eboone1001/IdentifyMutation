@@ -8,7 +8,7 @@
 
 /*
 Created by Jordan Burkhardt May 24th 2022
-Copywrite 2022
+Copyright 2022
 
 The following file is a header file containing several classes used for containing data from gff files.
 GBKey: an enum for the different possible values of GBKey

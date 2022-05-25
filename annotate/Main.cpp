@@ -5,7 +5,7 @@
 #include "annotation.h"
 /*
 Created by Jordan Burkhardt May 24th 2022
-Copywrite 2022
+Copyright 2022
 
 this tool has the following usage:
 ./annotate.exe -a <annotations> -r <reference genome> -o <output file name>
