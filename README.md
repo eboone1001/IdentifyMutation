@@ -9,3 +9,8 @@ A program for identifying mutations between a reference and a user supplied quer
 > datasets download virus genome accession --inputfile picked\_accessions.txt
 Which downloaded a zipped directory containing the 100 genomes we selected in a singe FASTA file (.faa)
 </p>
+
+### Blast sequences against the database
+<p>In order to blast our randomly selected sequences against the reference genome, we downloaded and installed the BLAST+ command line program.
+
+</p>

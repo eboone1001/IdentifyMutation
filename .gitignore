@@ -1,2 +1,6 @@
-# Put the names of files that you don't want to push to the repository
+# Put the names of files that you don't want to push to the repostory
 # See "https://git-scm.com/docs/gitignore" for full documentation
+
+test*
+CMakeLists.txt
+cmake*
