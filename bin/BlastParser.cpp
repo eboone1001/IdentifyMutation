@@ -9,7 +9,7 @@
 using namespace std;
 
 const string NUMERIC = "0123456789";
-const string BASES = "ATGC-";
+const string BASES = "ATGC-NKWYRTM";
 map<string , string> codon_dict;
 string database;
 
@@ -83,30 +83,8 @@ void init_codon_dictionary() {
 
 }
 
-string read_file(string filepath) {
-
-    ifstream inputFile;
-    inputFile.open(filepath.c_str(), ios::in);
-    char line[256];
-    string line2;
-
-    cout << inputFile.is_open() << endl;
-    inputFile >> line2;
-    cout << line << endl;
-
-    /*while (!inputFile.eof()) {
-        inputFile >> line2;
-        inputFile.getline(line, 256,'\n');
-        inputFile.ignore(256, '\n');
-        cout << line << endl;
-    }
-*/
-
-    return "exiting successfully";
-}
-
 string decode_codon(string codon) {
-    cout << codon << endl;
+
     if (codon.length() != 3) {
         throw std::logic_error("String isn't a codon: " + codon);
     }
@@ -167,8 +145,8 @@ tuple<list<string>,list<string>> getCodons(int startPosition, string mutation) {
     return codons;
 }
 
-string parse_mutation(string blastAlignment) {
-
+string parseMutation(string blastAlignment) {
+    string finalMutations;
     int db_position = 0;
     int matched_bases = 0;
     string mutations;
@@ -189,30 +167,58 @@ string parse_mutation(string blastAlignment) {
         list<string>& subjectCodons  = get<1>(codons);
 
         while (!queryCodons.empty()) {
+            int codon_pos = db_position/3;
             string queryAA = decode_codon(queryCodons.front());
             queryCodons.pop_front();
             string subjectAA = decode_codon(subjectCodons.front());
             subjectCodons.pop_front();
 
-            if (subjectAA != queryAA) {
+            if (subjectAA != queryAA && queryAA != "") {
 
-                cout << "PLCHLDR:" << subjectAA << (db_position/3 + 1) << queryAA << " ";
+                finalMutations +=  subjectAA + to_string(codon_pos + 1) + queryAA + ',';
             }
-            db_position += 3;
+            codon_pos++;
         }
+        db_position += mutations.length()/2;
+
         // cout << matched_bases << mutations << endl;
     }
-    cout << endl;
-    return "works";
+    return finalMutations.substr(0, finalMutations.length() -1);
+}
+
+string read_file(const std::string& filepath) {
+
+    std::ifstream inputFile(filepath);
+    string outFilePath = filepath.substr(0, filepath.find_last_of('.')) + "_results.txt";
+    std::ofstream outputFile(outFilePath);
+    //inputFile.open(filepath.c_str(), ios::in);
+    string line;
+    string strain;
+    string mutation;
+
+    if (inputFile.is_open()) {
+        cout << "reached" << endl;
+        while(getline(inputFile, line)) {
+            int split = line.find_first_of('\t');
+            strain = line.substr(0, split);
+            mutation = line.substr(split + 1);
+            outputFile << strain << " " << parseMutation(mutation) << endl;
+        }
+    }
+    inputFile.close();
+    outputFile.close();
+
+    return "exiting successfully";
 }
 
 int main(int argc, char* argv[]) {
     init_codon_dictionary();
     //cout << parse_mutations("../test_output.txt");
     //parse_mutation("897TA1873TC4502CT5943");
-    parse_mutation("605-T-A-G-G-G-G-A-A-C-T-T-C-T-C-C-T-G-C637");
+    //parse_mutation("605-T-A-G-G-G-G-A-A-C-T-T-C-T-C-C-T-G-C637");
     //getCodons(897, "TA");
 
+    read_file("../prelim_ORF1ab_mut.txt");
     return 0;
 }
 
