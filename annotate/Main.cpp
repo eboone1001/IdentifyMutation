@@ -10,6 +10,8 @@ Copyright 2022
 this tool has the following usage:
 ./annotate.exe -a <annotations> -r <reference genome> -o <output file name>
 
+optional flag -b will change the output for better compatibility with blast when working with proteins from the same genome
+
 It inputs gene annotations in .gff file format and a reference genome (of one read) in .fasta file format, and outputs reads for each gene in fasta file format.
 */
 
@@ -24,6 +26,7 @@ int main(int argc, char* argv[])
 	bool a = false;
 	bool r = false;
 	bool o = false;
+	bool b = false;
 	bool success = true;
 	bool skipArgs = false;
 	if (argc == 1) {
@@ -93,6 +96,10 @@ int main(int argc, char* argv[])
 			else if (argv[i][0] == '-' && (argv[i][1] == 'o' || argv[i][1] == 'O'))
 			{
 				o = true;
+			}
+			else if (argv[i][0] == '-' && (argv[i][1] == 'b' || argv[i][1] == 'B'))
+			{
+				b = true;
 			}
 			else {
 				std::cout << "proper usage: ./annotate.exe -a <annotations> -r <reference genome> -o <output file name>" << '\n' << " you used unknown arguement " << std::string(argv[i]) << std::endl;
@@ -170,7 +177,17 @@ int main(int argc, char* argv[])
 			int h = 0;
 			for (std::list<annotation>::iterator it = CDS.begin(); it != CDS.end(); it++)
 			{
-				std::string line1 = ">" + std::string(it->getGenome()) + " " + it->getTag("product") + '\n';
+				std::string line1;
+				if(!b)line1 = ">" + std::string(it->getGenome()) + " " + it->getTag("product") + '\n';
+				else {
+					std::string pname = it->getTag("product");
+					int plen = pname.length();
+					for (int i = 0; i < plen; i++)
+					{
+						if (pname[i] == ' ') pname[i] = '_';
+					}
+					line1 = ">" + std::string(it->getGenome()) + "|" + pname + '\n';
+				}
 				outfile << line1;
 				std::string line2 = "";
 				for (int i = it->startIndex() - 1; i < it->endIndex(); i++)
