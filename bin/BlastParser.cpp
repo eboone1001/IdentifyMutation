@@ -81,6 +81,26 @@ void init_codon_dictionary() {
     codon_dict["CGA"] = "R";
 }
 
+//TODO: Move to helper .cpp file
+list<string> split (string str, char separator) {
+    list<string> strings;
+    int currIndex = 0, i = 0;
+    int startIndex = 0, endIndex = 0;
+    while (i <= str.length()) {
+        if (str[i] == separator || i == str.length()) {
+            endIndex = i;
+            string subStr = "";
+            subStr.append(str, startIndex, endIndex - startIndex);
+            strings.push_back(subStr);
+            currIndex += 1;
+            startIndex = endIndex + 1;
+        }
+        i++;
+    }
+
+    return strings;
+}
+
 void init_database_dictionary(string filepath) {
     std::ifstream inputFile(filepath);
     string line;
@@ -98,7 +118,7 @@ void init_database_dictionary(string filepath) {
             strain = name.substr(0, split2);
             protein =  name.substr(split2 + 1);
             getline(inputFile,line);
-            cout << protein << ' ' << line.length() << endl;
+            //cout << protein << ' ' << line.length() << endl;
             database_dict[protein] = line;
         }
     }
@@ -216,6 +236,7 @@ string read_file(const std::string& filepath) {
     std::ofstream outputFile(outFilePath);
     //inputFile.open(filepath.c_str(), ios::in);
     string line;
+    string relevant;
     string name;
     string strain;
     string protein;
@@ -223,13 +244,34 @@ string read_file(const std::string& filepath) {
 
     if (inputFile.is_open()) {
         while(getline(inputFile, line)) {
-            //cout << line << endl;
-            int split1 = line.find_first_of('\t');
-            int split2 = line.find_first_of('|');
-            name = line.substr(0, split1);
-            strain = name.substr(0, split2);
-            protein =  name.substr(split2 + 1);
-            mutation = line.substr(split1 + 1);
+
+            list<string> strings = split(line, '\t');
+            protein = split(strings.front(), '|').back();
+            strings.pop_front();
+            strain = strings.front();
+            mutation = strings.back();
+            cout << strain << protein << mutation << endl;
+
+            /*
+            int split = line.find_first_of('|');
+            relevant = line.substr(split + 1);
+
+            cout << relevant << split << endl;
+            split = relevant.find_first_of('\t');
+            protein =  relevant.substr(0, split);
+
+            cout << relevant << protein << endl;
+            split = relevant.find_first_of('\t');
+            relevant = relevant.substr(split);
+
+            cout << relevant << endl;
+            split = relevant.find_first_of('\t');
+            strain = relevant.substr(0, split);
+            cout << strain << endl;
+            mutation = relevant.substr(split);// relevant.find_first_of('\t'));
+            cout << "Mutation: " << mutation << endl;*/
+
+
             string mutAnnotation = parseMutation(mutation, protein);
             if (mutAnnotation != "") {
                 outputFile << strain << " " << mutAnnotation << endl;
