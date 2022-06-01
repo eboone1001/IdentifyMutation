@@ -293,7 +293,7 @@ int main(int argc, char* argv[]) {
     //parse_mutation("605-T-A-G-G-G-G-A-A-C-T-T-C-T-C-C-T-G-C637");
     //getCodons(897, "TA");
 
-    read_file("../allgenes_mut.txt");
+    read_file("../allgenes_mut_moddb.txt");
     return 0;
 }
 
