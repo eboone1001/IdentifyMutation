@@ -7,7 +7,7 @@ This specific command was used to produce the file 'protein_database.fasta' for 
 
 This tool also plots the genome with annotations in the html file genome.html and can plot the genome with annotations and mutations after later steps with
 
- final/Debug/./annotate.exe -a GCF_009858895.2_ASM985889v3_genomic.gff -r sars_cov2_ref.fasta -i test -m allgenes_mut_moddb_results.txt
+./annotate.exe -a GCF_009858895.2_ASM985889v3_genomic.gff -r sars_cov2_ref.fasta -i test -m allgenes_mut_moddb_results.txt
 
 ### Download viral genomic data
 <p>First, we went to NCBI Virus site as directed, then filtered for our chosen continent (Oceania) and then downloaded **Just the accession numbers** with version. On our local machine, we then selected 100 random accessions by using the "shuf" commnad as follows:
