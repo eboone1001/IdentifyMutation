@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include "annotation.h"
+#include "plotGenes.h"
 /*
 Created by Jordan Burkhardt May 24th 2022
 Copyright 2022
@@ -11,6 +12,8 @@ this tool has the following usage:
 ./annotate.exe -a <annotations> -r <reference genome> -o <output file name>
 
 optional flag -b will change the output for better compatibility with blast when working with proteins from the same genome
+
+optional flag -p will produce an html file that plots the proteins on the genome
 
 It inputs gene annotations in .gff file format and a reference genome (of one read) in .fasta file format, and outputs reads for each gene in fasta file format.
 */
@@ -27,6 +30,7 @@ int main(int argc, char* argv[])
 	bool r = false;
 	bool o = false;
 	bool b = false;
+	bool p = false;
 	bool success = true;
 	bool skipArgs = false;
 	if (argc == 1) {
@@ -100,6 +104,10 @@ int main(int argc, char* argv[])
 			else if (argv[i][0] == '-' && (argv[i][1] == 'b' || argv[i][1] == 'B'))
 			{
 				b = true;
+			}
+			else if (argv[i][0] == '-' && (argv[i][1] == 'p' || argv[i][1] == 'P'))
+			{
+				p = true;
 			}
 			else {
 				std::cout << "proper usage: ./annotate.exe -a <annotations> -r <reference genome> -o <output file name>" << '\n' << " you used unknown arguement " << std::string(argv[i]) << std::endl;
@@ -204,6 +212,8 @@ int main(int argc, char* argv[])
 				*/
 			}
 			outfile.close();
+
+			plotGenes(CDS, "genome", totallen, 1920, 1080);
 			delete[] DNAseq;
 		}
 		else std::cout << "Unable to open file: " << std::string(refGenome) << std::endl;
