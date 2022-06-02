@@ -65,7 +65,7 @@ void plotGenes(std::list<annotation> genes, std::string outf, int genomeLength, 
 		std::string line;
 		int sLoc = it->startIndex();
 		int eLoc = it->endIndex();
-		std::cout << "sLoc: " << sLoc << " scale: " << scale << " X: " << sLoc * scale << " rounded: " << int(sLoc * scale) << std::endl;
+		//std::cout << "sLoc: " << sLoc << " scale: " << scale << " X: " << sLoc * scale << " rounded: " << int(sLoc * scale) << std::endl;
 		
 		int X = int(sLoc * scale);
 		int Y = int((eLoc - sLoc) * scale);

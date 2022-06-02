@@ -213,7 +213,7 @@ int main(int argc, char* argv[])
 			}
 			outfile.close();
 
-			plotGenes(CDS, "genome", totallen, 1920, 1080);
+			if(p) plotGenes(CDS, "genome", totallen, 1920, 1080);
 			delete[] DNAseq;
 		}
 		else std::cout << "Unable to open file: " << std::string(refGenome) << std::endl;
