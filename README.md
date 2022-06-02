@@ -5,7 +5,9 @@ A program for identifying mutations between a reference and a user supplied quer
 To produce a fasta formatted database of SARS-CoV-2 Proteins we produced the tool ./annotate.exe which inputs .gff annotations from the NCBI website, and a reference genome, and outputs to a fasta file.
 This specific command was used to produce the file 'protein_database.fasta' for our work: ./annotate.exe -a GCF_009858895.2_ASM985889v3_genomic.gff -r sars_cov2_ref.fasta -o protein_database.fasta -b -p
 
-This tool also plots the genome with annotations in the html file genome.html
+This tool also plots the genome with annotations in the html file genome.html and can plot the genome with annotations and mutations after later steps with
+
+ final/Debug/./annotate.exe -a GCF_009858895.2_ASM985889v3_genomic.gff -r sars_cov2_ref.fasta -i test -m allgenes_mut_moddb_results.txt
 
 ### Download viral genomic data
 <p>First, we went to NCBI Virus site as directed, then filtered for our chosen continent (Oceania) and then downloaded **Just the accession numbers** with version. On our local machine, we then selected 100 random accessions by using the "shuf" commnad as follows:

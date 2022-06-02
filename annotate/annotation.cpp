@@ -443,6 +443,26 @@ std::list<annotation> annotations::getAnnotations(GBKey key)
 	return ans;
 }
 
+std::list<annotation> annotations::getAnnotations(std::string product) 
+{
+	std::list<annotation> ans;
+
+	std::map<int, std::list<annotation>>::iterator it;
+
+	for (it = set.begin(); it != set.end(); it++)
+	{
+		std::list<annotation>::iterator itt;
+		for (itt = it->second.begin(); itt != it->second.end(); itt++)
+		{
+			if (itt->getTag("product") == product)
+			{
+				ans.push_back(*itt);
+			}
+		}
+	}
+	return ans;
+}
+
 annotations::~annotations()
 {
 }
