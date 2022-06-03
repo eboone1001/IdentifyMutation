@@ -5,3 +5,4 @@ test*
 CMakeLists.txt
 cmake-build-debug/
 cmake*
+.idea
