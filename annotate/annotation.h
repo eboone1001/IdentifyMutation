@@ -70,6 +70,7 @@ public:
 	annotations(char* fileName);
 	std::list<annotation> getAnnotations(int startIndex);
 	std::list<annotation> getAnnotations(GBKey key);
+	std::list<annotation> getAnnotations(std::string product);
 
 	~annotations();
 private:
